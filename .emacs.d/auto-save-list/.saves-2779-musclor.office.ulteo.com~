@@ -1,0 +1,10 @@
+/home/roullier/work/src/FreeRDP/include/freerdp/utils/stream.h
+/home/roullier/work/src/FreeRDP/include/freerdp/utils/#stream.h#
+/home/roullier/work/src/FreeRDP/libfreerdp-utils/stream.c
+/home/roullier/work/src/FreeRDP/libfreerdp-utils/#stream.c#
+/home/roullier/work/src/FreeRDP/libfreerdp-core/rdp.c
+/home/roullier/work/src/FreeRDP/libfreerdp-core/#rdp.c#
+/home/roullier/work/src/FreeRDP/libfreerdp-core/transport.c
+/home/roullier/work/src/FreeRDP/libfreerdp-core/#transport.c#
+/home/roullier/work/src/FreeRDP/libfreerdp-core/tcp.c
+/home/roullier/work/src/FreeRDP/libfreerdp-core/#tcp.c#

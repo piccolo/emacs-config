@@ -1,0 +1,35 @@
+# Script of stability and reliability of the connexion process;
+
+import random
+import time
+import subprocess
+import signal
+import os
+nb = random.randint(1,5)
+
+print " number of random acces %s " %(nb) 
+
+ip_linux = "127.0.0.1:3390"
+ip_windows ="10.42.1.168:3390"
+
+#command = "java -jar /home/roullier/work/src/client/java/jars/RDPClient.jar %s -u john -p john  " %(ip_windows)  
+#command = "gedit"
+command = "./rdp.sh 10.42.1.168:3390"
+process = []
+for i in range(nb):
+    process.append(subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
+    print "%s -> %s" %(i,process[i].pid)
+    
+time.sleep(30*nb)
+
+for i in range(nb):
+    print process[i].pid
+    process[i].terminate()
+    #os.killpg(process[i].pid, signal.SIGKILL)
+    #process[i].send_signal(signal.SIGKILL)
+        
+    
+    
+#print process.returncode
+
+

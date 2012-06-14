@@ -1,0 +1,135 @@
+(load-file "~/.emacs.d/cedet-1.0.1/common/cedet.el")
+(global-ede-mode t)
+
+(semantic-load-enable-gaudy-code-helpers)
+
+(custom-set-variables
+ '(semantic-idle-scheduler-idle-time 3)
+ '(semantic-self-insert-show-completion-function (lambda nil (semantic-ia-complete-symbol-menu (point))))
+ '(global-semantic-tag-folding-mode t nil (semantic-util-modes)))
+
+(require 'semantic-ia)
+(require 'semantic-gcc)
+
+(setq-mode-local c-mode semanticdb-find-default-throttle
+                 '(project unloaded system recursive))
+(setq-mode-local c++-mode semanticdb-find-default-throttle
+                 '(project unloaded system recursive))
+(setq-mode-local erlang-mode semanticdb-find-default-throttle
+                 '(project unloaded system recursive))
+
+
+(require 'semantic-decorate-include)
+
+(setq senator-minor-mode-name "SN")
+(setq semantic-imenu-auto-rebuild-directory-indexes nil)
+(global-srecode-minor-mode 1)
+(global-semanticdb-minor-mode)
+(global-semantic-idle-scheduler-mode)
+(global-semantic-idle-summary-mode)
+(global-semantic-idle-completions-mode)
+(global-semantic-decoration-mode)
+(global-semantic-highlight-func-mode)
+(global-semantic-stickyfunc-mode)
+(global-semantic-mru-bookmark-mode 1)
+(global-semantic-tag-folding-mode 1)
+
+;; (semantic-add-system-include "/usr/local/include/" 'c++-mode)
+
+(defun my-semantic-hook ()
+  (imenu-add-to-menubar "TAGS"))
+(add-hook 'c-mode-common-hook 'my-semantic-hook)
+(add-hook 'c++-mode-common-hook 'my-semantic-hook)
+
+(require 'semanticdb)
+(global-semanticdb-minor-mode 1)
+
+;; if you want to enable support for gnu global
+;; (when (cedet-gnu-global-version-check t)
+(require 'semanticdb-global)
+(semanticdb-enable-gnu-global-databases 'c-mode)
+(semanticdb-enable-gnu-global-databases 'c++-mode)
+
+
+
+;; cpp-tests project definition
+(when (file-exists-p "~/work/src/ovd-proxy/CMakeLists.txt")
+  (setq cpp-tests-project
+	(ede-cpp-root-project "ovd-proxy"
+						  :name "ovd-proxy"
+						  :file "~/work/src/ovd-proxy/CMakeLists.txt"
+						  :include-path '("~/work/src/ovd-proxy/"
+										  "~/work/src/ovd-proxy/common"
+										  "~/work/src/ovd-proxy/rdpproxy/include"
+										  "~/work/src/ovd-proxy/gui/include")
+						  )))
+			  
+
+;; my functions for EDE
+(defun alexott/ede-get-local-var (fname var)
+  "fetch given variable var from :local-variables of project of file fname"
+  (let* ((current-dir (file-name-directory fname))
+         (prj (ede-current-project current-dir)))
+    (when prj
+      (let* ((ov (oref prj local-variables))
+            (lst (assoc var ov)))
+        (when lst
+          (cdr lst))))))
+
+(setq qt4-base-dir "/usr/include/qt4")
+(semantic-add-system-include qt4-base-dir 'c++-mode)
+(add-to-list 'auto-mode-alist (cons qt4-base-dir 'c++-mode))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig.h"))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qconfig-dist.h"))
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file (concat qt4-base-dir "/Qt/qglobal.h"))
+
+(require 'eassist)
+
+;; customisation of modes
+(defun my-cedet-hook ()
+  (local-set-key [(control return)] 'semantic-ia-complete-symbol-menu)
+  (local-set-key "\C-c?" 'semantic-ia-complete-symbol)
+  ;;
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
+
+  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+  (local-set-key "\C-cq" 'semantic-ia-show-doc)
+  (local-set-key "\C-cs" 'semantic-ia-show-summary)
+  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+  (local-set-key (kbd "C-c <left>") 'semantic-tag-folding-fold-block)
+  (local-set-key (kbd "C-c <right>") 'semantic-tag-folding-show-block)
+  )
+
+
+(defun my-cedet-hook ()
+  (local-set-key "." 'semantic-complete-self-insert)
+  (local-set-key ">" 'semantic-complete-self-insert)
+  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
+  (local-set-key "\C-xt" 'eassist-switch-h-cpp)
+  (local-set-key "\C-ce" 'eassist-list-methods)
+  (local-set-key "\C-c\C-r" 'semantic-symref)
+  )
+
+(add-hook 'c-mode-common-hook 'my-cedet-hook)
+(add-hook 'c++-mode-common-hook 'my-cedet-hook)
+
+;;(defun my-cedet-hook ()
+;;  (local-set-key [(control return)] 'semantic-ia-complete-symbol)
+;;  (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
+;;  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+;;  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
+;;(add-hook 'c-mode-common-hook 'my-cedet-hook)
+;;;; (add-hook 'c++-mode 'my-cedet-hook)
+;;
+;;efun my-c-mode-cedet-hook ()
+;;local-set-key "." 'semantic-complete-self-insert)
+;;local-set-key ">" 'semantic-complete-self-insert))
+;;dd-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+;;dd-hook 'c++-mode-common-hook 'my-c-mode-cedet-hook)
+;;
+(require 'semantic-lex-spp)
+(global-ede-mode t)
+(ede-enable-generic-projects)
+;; setup compile package
+;;; emacs-rc-cedet.el ends here
