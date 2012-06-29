@@ -1,9 +1,9 @@
 ;;; wisent-javascript-jv-wy.el --- Generated parser support file
 
-;; Copyright (C) 2005-2011 Free Software Foundation, Inc.
+;; Copyright (C) 2005 Joakim Verona, Eric Ludlam
 
-;; Author: Vincent Roullier <roullier@musclor.office.ulteo.com>
-;; Created: 2012-06-14 16:19:17+0200
+;; Author: Eric M. Ludlam <zappo@projectile>
+;; Created: 2012-01-09 21:18:22-0500
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

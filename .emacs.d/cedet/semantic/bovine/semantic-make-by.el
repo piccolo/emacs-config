@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2008 Eric M. Ludlam
 
-;; Author: Vincent Roullier <roullier@musclor.office.ulteo.com>
-;; Created: 2012-06-14 16:19:21+0200
+;; Author: Eric M. Ludlam <zappo@projectile>
+;; Created: 2012-01-09 21:18:24-0500
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
