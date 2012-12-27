@@ -1,0 +1,4 @@
+include "/usr/share/nano/c.nanorc"
+include "/usr/share/nano/perl.nanorc"
+include "/usr/share/nano/sh.nanorc"
+

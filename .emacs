@@ -142,22 +142,19 @@
 
 (provide 'cc-config)
 
-(require 'magit)
+(load "~/.emacs.d/my-init-cedet.el")
 
-;;(load "~/.emacs.d/emacs-rc-cedet.el")
 
-;; (load "~/.emacs.d/emacs-rc-cedet.el")
+(require 'highlight-symbol)
+(global-set-key [(control f3)] 'highlight-symbol-at-point)
+(global-set-key [f3] 'highlight-symbol-next)
+(global-set-key [(shift f3)] 'highlight-symbol-prev)
+(global-set-key [(meta f3)] 'highlight-symbol-prev)
+(global-set-key [(control meta f3)] 'highlight-symbol-query-replace)
 
-;; cedet 
 
-;;(load-file "~/.emacs.d/cedet/common/cedet.el")
-(add-to-list 'load-path "~/.emacs.d/cedet")
-(load-file "~/.emacs.d/cedet/common/cedet.el")
-
-(global-ede-mode t)
-
-(semantic-load-enable-code-helpers)
-(global-srecode-minor-mode 1)
-
-(require 'ecb)
-;;; emacs-rc-cedet.el ---
+(when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed 
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+  (ac-config-default))
+(set-cursor-color "#ffffff")
